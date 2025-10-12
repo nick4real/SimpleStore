@@ -1,0 +1,32 @@
+﻿@inherits LayoutComponentBase
+
+<header class="fixed inset-x-0 top-0 flex h-14 items-center bg-neutral-200 px-4">
+    <div class="absolute inset-x-0 top-full bottom-0 h-px bg-neutral-300"/>
+    <div class="mr-auto">
+        <a href="/" class="text-2xl text-neutral-800">simplestore</a>
+    </div>
+    <div class="flex flex-col">
+        <a href="/">
+            <div class="flex flex-col gap-y-1">
+                @for (int i = 0; i < 3; i++)
+                {
+                    <div class="h-1 w-6 rounded-sm bg-neutral-600"></div>
+                }
+            </div>
+        </a>
+    </div>
+</header>
+
+<main class="mt-14 flex-grow bg-neutral-200 p-2">
+    @Body
+</main>
+
+<footer class="inset-x-0 flex h-16 items-center justify-center bg-neutral-950">
+    <p class="text-white/90">Powered by Blazor. @DateTime.Now.Year</p>
+</footer>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>
