@@ -20,15 +20,15 @@ jobs:
 
       - name: Restore dependencies
         run: dotnet restore
-        working-directory: Clients/SnipStreamWebApp
+        working-directory: SimpleStoreWebApp
 
       - name: Build
         run: dotnet build --configuration Release
-        working-directory: Clients/SnipStreamWebApp
+        working-directory: SimpleStoreWebApp
 
       - name: Publish
         run: dotnet publish -c Release -o ./publish
-        working-directory: Clients/SnipStreamWebApp
+        working-directory: SimpleStoreWebApp
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
