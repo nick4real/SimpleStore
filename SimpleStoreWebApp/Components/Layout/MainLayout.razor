@@ -14,7 +14,7 @@
         </div>
     </button>
     <div class="absolute inset-x-0 top-full bottom-0 z-50 h-px bg-neutral-300"/>
-    <nav id="@navbarId" class="absolute inset-x-0 top-14 flex flex-col items-center bg-neutral-200">
+    <nav class="absolute @menuDisplay inset-x-0 top-14 flex-col items-center bg-neutral-200">
         <a href="/" class="w-7/8 py-4 text-center text-white">Popular</a>
         <hr class="h-px w-7/8 border-white" />
         <a href="/" class="w-7/8 py-4 text-center text-white">Bestsellers</a>
@@ -39,14 +39,12 @@
 </div>
 
 @code {
-    private readonly string navbarId = "navbarMenu";
-
     private bool isMenuHidden = true;
-    private async Task ShowMenu()
+    private string menuDisplay = "hidden";
+
+    private void ShowMenu()
     {
-        await JS.InvokeVoidAsync("console.log", navbarId); 
-        await JS.InvokeVoidAsync("showNavbarMenu");
-        await JS.InvokeVoidAsync("showNavbarMenu", navbarId);
+        menuDisplay = isMenuHidden ? "flex" : "hidden";    
         isMenuHidden = !isMenuHidden;
         StateHasChanged();
     }
