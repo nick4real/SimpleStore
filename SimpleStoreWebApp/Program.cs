@@ -1,4 +1,5 @@
-    using SimpleStoreWebApp.Components;
+using Microsoft.AspNetCore.StaticFiles;
+using SimpleStoreWebApp.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+var provider = new FileExtensionContentTypeProvider();
+provider.Mappings[".avif"] = "image/avif";
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    ContentTypeProvider = provider
+});
+
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

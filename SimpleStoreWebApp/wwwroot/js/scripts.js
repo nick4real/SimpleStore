@@ -1,3 +1,8 @@
-﻿window.showNavbarMenu = (style) => {
-    document.getElementById("navbarMenu").style.display = style;
+﻿window.navbarToggle = (navbarId, isShow) => {
+    if (isShow) {
+        document.getElementById(navbarId).style.display = "flex";
+    }
+    else {
+        document.getElementById(navbarId).style.display = "none";
+    }
 }

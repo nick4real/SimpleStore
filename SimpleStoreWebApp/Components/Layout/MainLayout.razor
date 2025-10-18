@@ -5,7 +5,7 @@
     <div class="mr-auto">
         <a href="/" class="text-2xl text-neutral-800">simplestore</a>
     </div>
-    <button class="sm:hidden" @onclick="ShowMenu">
+    <button class="sm:hidden" @onclick="ShowNavbar">
         <span class="absolute right-3 bottom-3 h-8 w-8 rounded hover:bg-stone-800/20"/>
         <div class="flex flex-col">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -14,12 +14,12 @@
         </div>
     </button>
     <div class="absolute inset-x-0 top-full bottom-0 z-50 h-px bg-neutral-300"/>
-    <nav class="absolute @menuDisplay inset-x-0 top-14 flex-col items-center bg-neutral-200">
-        <a href="/" class="w-7/8 py-4 text-center text-white">Popular</a>
-        <hr class="h-px w-7/8 border-white" />
-        <a href="/" class="w-7/8 py-4 text-center text-white">Bestsellers</a>
-        <hr class="h-px w-7/8 border-white" />
-        <a href="/" class="w-7/8 py-4 text-center text-white">Brands</a>
+    <nav id="@navbar" class="absolute inset-x-0 top-14 hidden flex-col items-center bg-neutral-200">
+        <NavLink href="/testpage" class="w-7/8 py-4 text-center text-neutral-800">Popular</NavLink>
+        <hr class="h-px w-7/8 border-neutral-300" />
+        <NavLink href="/" class="w-7/8 py-4 text-center text-neutral-800">Bestsellers</NavLink>
+        <hr class="h-px w-7/8 border-neutral-300" />
+        <NavLink href="/" class="w-7/8 py-4 text-center text-neutral-800">Brands</NavLink>
         <hr class="h-px w-full border-neutral-300" />
     </nav>
 </header>
@@ -39,12 +39,13 @@
 </div>
 
 @code {
-    private bool isMenuHidden = true;
-    private string menuDisplay = "hidden";
+    private const string navbar = nameof(navbar);
 
-    private void ShowMenu()
+    private bool isMenuHidden = true;
+
+    private async Task ShowNavbar()
     {
-        menuDisplay = isMenuHidden ? "flex" : "hidden";    
+        await JS.InvokeVoidAsync("navbarToggle", navbar, isMenuHidden);
         isMenuHidden = !isMenuHidden;
         StateHasChanged();
     }

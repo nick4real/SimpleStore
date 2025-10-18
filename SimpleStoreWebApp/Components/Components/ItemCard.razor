@@ -1,0 +1,15 @@
+﻿<div class="rounded shadow-md">
+    <h3>@Title</h3>
+    <picture>
+        <source srcset="@Source" />
+        <img src="@Source" alt="Car" class="aspect-[4/3] rounded object-cover" />
+    </picture>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Sample Item";
+
+    [Parameter]
+    public string Source { get; set; } = "Sample Item";
+}
