@@ -2,10 +2,10 @@
 
 <PageTitle>Home</PageTitle>
 
-<div class="grid grid-cols-2 gap-2 sm:grid-cols-3">
+<div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
     @foreach (var pic in picsList)
     {
-        <ItemCard Title="@pic" Source="@pic" />
+        <ItemCard Title="@pic.Substring(Math.Max(pic.Length - 15, 0))" Source="@pic" />
     }
 </div>
 
