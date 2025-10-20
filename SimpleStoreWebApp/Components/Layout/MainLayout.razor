@@ -5,7 +5,7 @@
     <div class="mr-auto">
         <a href="/" class="text-2xl text-neutral-800">simplestore</a>
     </div>
-    <button class="sm:hidden" @onclick="ShowNavbar">
+    <button class="sm:hidden" @onclick="ToggleNavbar">
         <span class="absolute right-3 bottom-3 h-8 w-8 rounded hover:bg-stone-800/20"/>
         <div class="flex flex-col">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -15,11 +15,11 @@
     </button>
     <div class="absolute inset-x-0 top-full bottom-0 z-50 h-px bg-neutral-300"/>
     <nav id="@navbar" class="absolute inset-x-0 top-14 hidden flex-col items-center bg-neutral-200">
-        <NavLink href="/testpage" class="w-7/8 py-4 text-center text-neutral-800">Popular</NavLink>
+        <NavLink @onclick="CloseNavbar" href="/testpage" class="w-7/8 py-4 text-center text-neutral-800">Popular</NavLink>
         <hr class="h-px w-7/8 border-neutral-300" />
-        <NavLink href="/" class="w-7/8 py-4 text-center text-neutral-800">Bestsellers</NavLink>
+        <NavLink @onclick="CloseNavbar" href="/" class="w-7/8 py-4 text-center text-neutral-800">Bestsellers</NavLink>
         <hr class="h-px w-7/8 border-neutral-300" />
-        <NavLink href="/" class="w-7/8 py-4 text-center text-neutral-800">Brands</NavLink>
+        <NavLink @onclick="CloseNavbar" href="/" class="w-7/8 py-4 text-center text-neutral-800">Brands</NavLink>
         <hr class="h-px w-full border-neutral-300" />
     </nav>
     <nav class="hidden sm:inline">
@@ -48,7 +48,14 @@
 
     private bool isMenuHidden = true;
 
-    private async Task ShowNavbar()
+    private async Task ToggleNavbar()
+    {
+        await JS.InvokeVoidAsync("navbarToggle", navbar, isMenuHidden);
+        isMenuHidden = !isMenuHidden;
+        StateHasChanged();
+    }
+    
+    private async Task CloseNavbar()
     {
         await JS.InvokeVoidAsync("navbarToggle", navbar, isMenuHidden);
         isMenuHidden = !isMenuHidden;
