@@ -1,14 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var postgres = builder.AddPostgres("postgres")
-    .WithPgAdmin()
+var sqlserver = builder.AddSqlServer("sqlserver")
     .WithLifetime(ContainerLifetime.Persistent);
 
-var postgresdb = postgres.AddDatabase("simplestore-db");
+var sqlserverdb = sqlserver.AddDatabase("simplestore-db");
 
 var api = builder.AddProject<Projects.SimpleStore_API>("simplestore-api")
-    .WithReference(postgresdb)
-    .WaitFor(postgresdb);
+    .WithReference(sqlserverdb)
+    .WaitFor(sqlserverdb);
 
 var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp")
     .WithReference(api)

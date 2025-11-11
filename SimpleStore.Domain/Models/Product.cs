@@ -10,7 +10,7 @@ namespace SimpleStore.Domain.Models
         public string Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
-        public float Price { get; set; }
+        public decimal Price { get; set; }
         public List<PictureLink> Pictures { get; set; } = new();
     }
 }
