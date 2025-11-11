@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SimpleStore.Aspire\SimpleStore.Aspire.ServiceDefaults\SimpleStore.Aspire.ServiceDefaults.csproj" />
+  </ItemGroup>
+
 </Project>

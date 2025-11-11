@@ -1,0 +1,20 @@
+﻿<div class="rounded p-1 shadow-md">
+    <picture>
+        <source srcset="@Source" />
+        <img src="@Source" alt="Car" class="aspect-[4/3] rounded object-cover" />
+    </picture>
+    <div class="mx-1 mt-1">
+        <h3 class="text-wrap">@Title</h3>
+        <h4 class="font-bold">100.000 $</h4>
+        <p class="text-sm">New York</p>
+        <p class="text-sm">13.10.2025</p>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; } = "Sample Item";
+
+    [Parameter]
+    public string Source { get; set; } = "Sample Item";
+}

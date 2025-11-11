@@ -1,9 +1,64 @@
 ﻿@inherits LayoutComponentBase
+@inject IJSRuntime JS
 
-@Body
+<header class="fixed inset-x-0 top-0 flex h-14 items-center bg-neutral-200 px-4">
+    <div class="mr-auto">
+        <a href="/" class="text-2xl text-neutral-800">simplestore</a>
+    </div>
+    <button class="sm:hidden" @onclick="ToggleNavbar">
+        <span class="absolute right-3 bottom-3 h-8 w-8 rounded hover:bg-stone-800/20" />
+        <div class="flex flex-col">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </div>
+    </button>
+    <div class="absolute inset-x-0 top-full bottom-0 z-50 h-px bg-neutral-300" />
+    <nav id="@navbar" class="absolute inset-x-0 top-14 hidden flex-col items-center bg-neutral-200">
+        <NavLink @onclick="CloseNavbar" href="/testpage" class="w-7/8 py-4 text-center text-neutral-800">Popular</NavLink>
+        <hr class="h-px w-7/8 border-neutral-300" />
+        <NavLink @onclick="CloseNavbar" href="/" class="w-7/8 py-4 text-center text-neutral-800">Bestsellers</NavLink>
+        <hr class="h-px w-7/8 border-neutral-300" />
+        <NavLink @onclick="CloseNavbar" href="/" class="w-7/8 py-4 text-center text-neutral-800">Brands</NavLink>
+        <hr class="h-px w-full border-neutral-300" />
+    </nav>
+    <nav class="hidden sm:inline">
+        <NavLink href="/testpage" class="text-neutral-800">Popular</NavLink>
+        <NavLink href="/" class="mx-2 text-neutral-800">Bestsellers</NavLink>
+        <NavLink href="/" class="text-neutral-800">Brands</NavLink>
+    </nav>
+</header>
+
+<main class="mt-14 flex-grow bg-neutral-200 p-2">
+    @Body
+</main>
+
+<footer class="inset-x-0 flex h-16 items-center justify-center bg-neutral-950">
+    <p class="text-white/90">Powered by Blazor. @DateTime.Now.Year</p>
+</footer>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+@code {
+    private const string navbar = nameof(navbar);
+
+    private bool isMenuHidden = true;
+
+    private async Task ToggleNavbar()
+    {
+        await JS.InvokeVoidAsync("navbarToggle", navbar, isMenuHidden);
+        isMenuHidden = !isMenuHidden;
+        StateHasChanged();
+    }
+
+    private async Task CloseNavbar()
+    {
+        await JS.InvokeVoidAsync("navbarToggle", navbar, isMenuHidden);
+        isMenuHidden = !isMenuHidden;
+        StateHasChanged();
+    }
+}
