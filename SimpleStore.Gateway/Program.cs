@@ -7,9 +7,33 @@ builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+void ConfigureReverseProxy()
+{
+    var reverseProxyClusters = builder.Configuration.GetSection("ReverseProxy:Clusters");
+
+    foreach (var cluster in reverseProxyClusters.GetChildren())
+    {
+        var clusterName = cluster.Key.Replace("-cluster", string.Empty);
+
+        if (!builder.Environment.IsDevelopment())
+            clusterName = clusterName.Replace('-', '_');
+
+        var tmp2 = builder.Configuration.GetSection($"ReverseProxy:Clusters:{cluster.Key}:Destinations:destination-1:Address");
+        var destinationUrl2 = Environment.GetEnvironmentVariable($"services__{clusterName}__http__0")!;
+
+        tmp2.Value = destinationUrl2;
+    }
+}
+
+ConfigureReverseProxy();
+
+builder.Services.AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
+app.MapReverseProxy();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -20,29 +44,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

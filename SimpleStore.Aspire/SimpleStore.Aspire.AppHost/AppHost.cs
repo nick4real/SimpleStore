@@ -8,7 +8,7 @@ var postgresdb = postgres.AddDatabase("simplestore-db");
 
 var api = builder.AddProject<Projects.SimpleStore_API>("simplestore-api")
     .WithReference(postgresdb)
-    .WaitFor(postgres);
+    .WaitFor(postgresdb);
 
 var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp")
     .WithReference(api)
@@ -16,6 +16,7 @@ var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp
 
 var gateway = builder.AddProject<Projects.SimpleStore_Gateway>("simplestore-gateway")
     .WithExternalHttpEndpoints()
+    .WithReference(api)
     .WithReference(webapp)
     .WaitFor(webapp);
 
