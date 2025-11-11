@@ -11,8 +11,12 @@ var api = builder.AddProject<Projects.SimpleStore_API>("simplestore-api")
     .WaitFor(postgres);
 
 var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp")
-    //.WithExternalHttpEndpoints()
     .WithReference(api)
     .WaitFor(api);
+
+var gateway = builder.AddProject<Projects.SimpleStore_Gateway>("simplestore-gateway")
+    .WithExternalHttpEndpoints()
+    .WithReference(webapp)
+    .WaitFor(webapp);
 
 builder.Build().Run();

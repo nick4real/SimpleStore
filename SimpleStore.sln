@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Aspire.AppHost"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Aspire.ServiceDefaults", "SimpleStore.Aspire\SimpleStore.Aspire.ServiceDefaults\SimpleStore.Aspire.ServiceDefaults.csproj", "{E8933F23-69CA-F3E2-A7F8-B6AFE7921E21}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Gateway", "SimpleStore.Gateway\SimpleStore.Gateway.csproj", "{E7B51530-9070-6647-4C38-06B40A3A947C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Domain", "SimpleStore.Domain\SimpleStore.Domain.csproj", "{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{E8933F23-69CA-F3E2-A7F8-B6AFE7921E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8933F23-69CA-F3E2-A7F8-B6AFE7921E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8933F23-69CA-F3E2-A7F8-B6AFE7921E21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B51530-9070-6647-4C38-06B40A3A947C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B51530-9070-6647-4C38-06B40A3A947C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B51530-9070-6647-4C38-06B40A3A947C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B51530-9070-6647-4C38-06B40A3A947C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
