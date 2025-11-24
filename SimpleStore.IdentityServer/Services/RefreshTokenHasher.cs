@@ -22,10 +22,10 @@ namespace SimpleStore.IdentityServer.Services
 
         public static bool VerifyHashToken(string token, string salt, string hashedToken)
         {
-            var saltBytes = Convert.FromBase64String(salt);
-            var hashToVerify = HashToken(token, saltBytes);
-
             var hashedTokenBytes = Convert.FromBase64String(hashedToken);
+            var saltBytes = Convert.FromBase64String(salt);
+
+            var hashToVerify = HashToken(token, saltBytes);
             return hashToVerify.SequenceEqual(hashedTokenBytes);
         }
     }

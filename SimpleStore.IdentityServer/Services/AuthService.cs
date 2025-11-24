@@ -18,7 +18,8 @@ namespace SimpleStore.IdentityServer.Services
     {
         public async Task<User?> RegisterAsync(UserRegisterDto request)
         {
-            if (await context.Users.AnyAsync(u => u.Email == request.Email))
+            if (await context.Users.AnyAsync(u => u.Email == request.Email)
+                || await context.Users.AnyAsync(u => u.Username == request.Username))
             {
                 return null;
             }
@@ -55,7 +56,6 @@ namespace SimpleStore.IdentityServer.Services
                     .AsNoTracking()
                     .FirstOrDefaultAsync(u => u.Username == request.Login);
             }
-
             if (user is null) return null;
 
             if (new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, request.Password)
@@ -64,28 +64,91 @@ namespace SimpleStore.IdentityServer.Services
                 return null;
             }
 
-            return await CreateTokenResponse(user);
+            var response = CreateTokenResponse(user);
+
+            await CreateSessionAsync(user.Id, response.RefreshToken);
+
+            return response;
         }
 
         public async Task<TokenResponseDto?> RefreshTokenAsync(RefreshTokenRequestDto request)
         {
-            var user = await RefreshSessionAsync(request.Guid, request.RefreshToken);
-            if (user == null)
-            {
-                return null;
-            }
-            return await CreateTokenResponse(user);
+            var user = await context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == request.Guid);
+            if (user == null) return null;
+
+            var session = await GetSessionAsync(request.Guid, request.RefreshToken);
+            if (session == null) return null;
+
+            var response = CreateTokenResponse(user);
+
+            await UpdateSessionAsync(session, response.RefreshToken);
+
+            return response;
         }
 
 
-        // Private methods to handle token generation and validation
-        private async Task<TokenResponseDto> CreateTokenResponse(User user)
+        //Private methods to handle token generation and validation
+        private async Task<Session?> GetSessionAsync(Guid userId, string refreshToken)
+        {
+            var sessionList = await context.Sessions
+                .Where(s => s.IsRevoked == false
+                && s.UserId == userId
+                && DateTime.UtcNow <= s.Expires)
+                .ToListAsync();
+            if (sessionList == null) return null;
+
+            var session = sessionList
+                .FirstOrDefault(s => RefreshTokenHasher.VerifyHashToken(refreshToken, s.Salt, s.RefreshTokenHash));
+            if (session == null) return null;
+
+            return session;
+        }
+        private async Task CreateSessionAsync(Guid userId, string refreshToken)
+        {
+            var salt = RefreshTokenHasher.GenerateSalt();
+            var refreshTokenHash = RefreshTokenHasher.HashToken(refreshToken, salt);
+
+            var session = new Session
+            {
+                UserId = userId,
+                RefreshTokenHash = Convert.ToBase64String(refreshTokenHash),
+                Salt = Convert.ToBase64String(salt),
+                Expires = DateTime.UtcNow.AddDays(14),
+                IsRevoked = false
+            };
+
+            await context.Sessions.AddAsync(session);
+            await context.SaveChangesAsync();
+        }
+
+        private async Task UpdateSessionAsync(Session session, string refreshToken)
+        {
+            var salt = RefreshTokenHasher.GenerateSalt();
+            var refreshTokenHash = RefreshTokenHasher.HashToken(refreshToken, salt);
+
+            session.RefreshTokenHash = Convert.ToBase64String(refreshTokenHash);
+            session.Salt = Convert.ToBase64String(salt);
+            session.Expires = DateTime.UtcNow.AddDays(14);
+
+            await context.SaveChangesAsync();
+        }
+        private TokenResponseDto CreateTokenResponse(User user)
         {
             return new TokenResponseDto
             {
                 AccessToken = CreateAccessToken(user),
-                RefreshToken = await GenerateAndSaveRefreshTokenAsync(user)
+                RefreshToken = CreateRefreshToken()
             };
+        }
+
+        private string CreateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
         }
 
         private string CreateAccessToken(User user)
@@ -109,60 +172,6 @@ namespace SimpleStore.IdentityServer.Services
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
-        }
-
-        private async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
-        {
-            var refreshToken = CreateRefreshToken();
-
-            var salt = RefreshTokenHasher.GenerateSalt();
-            var refreshTokenHash = RefreshTokenHasher.HashToken(refreshToken, salt);
-
-            var session = new Session
-            {
-                UserId = user.Id,
-                RefreshTokenHash = Convert.ToBase64String(refreshTokenHash),
-                Salt = Convert.ToBase64String(salt),
-                Expires = DateTime.UtcNow.AddDays(14),
-                IsRevoked = false
-            };
-
-            await context.Sessions.AddAsync(session);
-            await context.SaveChangesAsync();
-
-            return refreshToken;
-        }
-
-        private string CreateRefreshToken()
-        {
-            var randomNumber = new byte[32];
-            using var rng = RandomNumberGenerator.Create();
-            rng.GetBytes(randomNumber);
-            return Convert.ToBase64String(randomNumber);
-        }
-
-        private async Task<User?> RefreshSessionAsync(Guid userId, string refreshToken)
-        {
-            var sessionList = await context.Sessions
-                .Where(s => s.IsRevoked == false 
-                && s.UserId == userId
-                && DateTime.UtcNow <= s.Expires)
-                .ToListAsync();
-            if (sessionList == null) return null;
-
-            var user = await context.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.Id == userId);
-            if (user == null) return null;
-
-            var session = sessionList
-                .FirstOrDefault(s => RefreshTokenHasher.VerifyHashToken(refreshToken, s.Salt, s.RefreshTokenHash));
-            if (session == null) return null;
-
-            session.IsRevoked = true;
-            await context.SaveChangesAsync();
-
-            return user;
         }
     }
 }

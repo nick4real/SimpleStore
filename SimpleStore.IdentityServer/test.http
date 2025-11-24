@@ -28,8 +28,8 @@ Content-Type: application/json
 POST {{SimpleStore.IdentityServer_HostAddress}}/refresh-token
 Content-Type: application/json
 {
-  "guid": "20A751E4-D49E-4364-ADBF-08DE27CC0441",
-  "refreshtoken": "q0DIsGt3M8cyKZ3vtYhaj5U/G8C/ofBNR+klNOr492M="
+  "guid": "6538ECD5-735A-40BC-6A8E-08DE2B99DD27",
+  "refreshtoken": "QNzTEg2p1AZP5rthntWSjPUR7U21EpnUVCEjGnqzF0I="
 }
 
 ###
