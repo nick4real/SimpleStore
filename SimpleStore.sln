@@ -15,6 +15,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Gateway", "Simp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Domain", "SimpleStore.Domain\SimpleStore.Domain.csproj", "{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.IdentityServer", "SimpleStore.IdentityServer\SimpleStore.IdentityServer.csproj", "{8284BD30-4DC0-B13C-1465-58140F9EB23A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleStore.Application", "SimpleStore.Application\SimpleStore.Application.csproj", "{761BC725-6035-4D9E-B0B1-2CF5A95D21A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,14 @@ Global
 		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B919A5-E677-449C-B1F3-8B73A2DFF5C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8284BD30-4DC0-B13C-1465-58140F9EB23A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8284BD30-4DC0-B13C-1465-58140F9EB23A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8284BD30-4DC0-B13C-1465-58140F9EB23A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8284BD30-4DC0-B13C-1465-58140F9EB23A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{761BC725-6035-4D9E-B0B1-2CF5A95D21A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{761BC725-6035-4D9E-B0B1-2CF5A95D21A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{761BC725-6035-4D9E-B0B1-2CF5A95D21A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{761BC725-6035-4D9E-B0B1-2CF5A95D21A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

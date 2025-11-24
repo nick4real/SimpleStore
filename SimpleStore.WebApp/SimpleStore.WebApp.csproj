@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SimpleStore.Application\SimpleStore.Application.csproj" />
     <ProjectReference Include="..\SimpleStore.Aspire\SimpleStore.Aspire.ServiceDefaults\SimpleStore.Aspire.ServiceDefaults.csproj" />
   </ItemGroup>
 

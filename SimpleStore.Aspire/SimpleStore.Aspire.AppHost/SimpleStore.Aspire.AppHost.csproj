@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SimpleStore.API\SimpleStore.API.csproj" />
     <ProjectReference Include="..\..\SimpleStore.Gateway\SimpleStore.Gateway.csproj" />
+    <ProjectReference Include="..\..\SimpleStore.IdentityServer\SimpleStore.IdentityServer.csproj" />
     <ProjectReference Include="..\..\SimpleStore.WebApp\SimpleStore.WebApp.csproj" />
   </ItemGroup>
 

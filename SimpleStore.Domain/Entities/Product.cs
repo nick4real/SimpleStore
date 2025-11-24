@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SimpleStore.Domain.Models
+namespace SimpleStore.Domain.Entities
 {
     public class Product
     {

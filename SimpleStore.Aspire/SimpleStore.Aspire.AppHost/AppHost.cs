@@ -19,4 +19,6 @@ var gateway = builder.AddProject<Projects.SimpleStore_Gateway>("simplestore-gate
     .WithReference(webapp)
     .WaitFor(webapp);
 
+builder.AddProject<Projects.SimpleStore_IdentityServer>("simplestore-identityserver");
+
 builder.Build().Run();

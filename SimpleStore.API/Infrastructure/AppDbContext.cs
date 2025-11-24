@@ -1,6 +1,6 @@
 ﻿using Bogus;
 using Microsoft.EntityFrameworkCore;
-using SimpleStore.Domain.Models;
+using SimpleStore.Domain.Entities;
 
 namespace SimpleStore.API.Infrastructure
 {

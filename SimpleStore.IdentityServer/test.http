@@ -1,0 +1,35 @@
+@SimpleStore.IdentityServer_HostAddress = http://localhost:5081
+
+GET {{SimpleStore.IdentityServer_HostAddress}}/health/
+Accept: application/json
+
+###
+
+POST {{SimpleStore.IdentityServer_HostAddress}}/register
+Accept: application/json
+Content-Type: application/json
+{
+  "username": "loyd17",
+  "email": "example@gmail.com",
+  "password": "Test@1234"
+}
+
+###
+
+POST {{SimpleStore.IdentityServer_HostAddress}}/login
+Content-Type: application/json
+{
+  "login": "example@gmail.com",
+  "password": "Test@1234"
+}
+
+###
+
+POST {{SimpleStore.IdentityServer_HostAddress}}/refresh-token
+Content-Type: application/json
+{
+  "guid": "20A751E4-D49E-4364-ADBF-08DE27CC0441",
+  "refreshtoken": "q0DIsGt3M8cyKZ3vtYhaj5U/G8C/ofBNR+klNOr492M="
+}
+
+###
