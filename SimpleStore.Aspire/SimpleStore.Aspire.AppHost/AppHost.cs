@@ -9,6 +9,8 @@ var api = builder.AddProject<Projects.SimpleStore_API>("simplestore-api")
     .WithReference(sqlserverdb)
     .WaitFor(sqlserverdb);
 
+var identity = builder.AddProject<Projects.SimpleStore_IdentityServer>("simplestore-identity");
+
 var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp")
     .WithReference(api)
     .WaitFor(api);
@@ -16,9 +18,8 @@ var webapp = builder.AddProject<Projects.SimpleStore_WebApp>("simplestore-webapp
 var gateway = builder.AddProject<Projects.SimpleStore_Gateway>("simplestore-gateway")
     .WithExternalHttpEndpoints()
     .WithReference(api)
+    .WithReference(identity)
     .WithReference(webapp)
     .WaitFor(webapp);
-
-builder.AddProject<Projects.SimpleStore_IdentityServer>("simplestore-identityserver");
 
 builder.Build().Run();

@@ -58,7 +58,7 @@ await using (var dbContext = serviceScope.ServiceProvider.GetRequiredService<App
         if (!app.Environment.IsProduction())
             await dbContext.Database.EnsureDeletedAsync();
 
-        await dbContext.Database.EnsureCreatedAsync();
+         await dbContext.Database.EnsureCreatedAsync();
     });
 }
 
